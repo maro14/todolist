@@ -1,6 +1,6 @@
 import Todo from '../models/todo'
 
-export const getTodos = async(req, res) => {
+const getTodos = async(req, res) => {
     try {
         const todos = Todo.find({})
         res.status(200).json({ data: todos })
@@ -9,3 +9,4 @@ export const getTodos = async(req, res) => {
     }
 }
 
+export default { getTodos }
