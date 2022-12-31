@@ -1,10 +1,9 @@
-//import { getTodos } from '../controllers/todo'
+import { getTodos, addTodo } from '../controllers/todo.js'
 import { Router} from 'express';
 
-export const TodoRouter =  Router()
+export const TodoRouter = Router()
 
-TodoRouter.get('/test', async(req, res) => {
-    res.send("OK from router")
-})
+TodoRouter.get('/all', getTodos)
+TodoRouter.post('/add', addTodo)
 
 export default TodoRouter

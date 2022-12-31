@@ -1,6 +1,6 @@
-import Todo from '../models/todo.js'
+import { Todo } from '../models/todo.js'
 
-const getTodos = async(req, res) => {
+export const getTodos = async(req, res) => {
     try {
         const todos = Todo.find({})
         res.status(200).json({ data: todos })
@@ -9,4 +9,13 @@ const getTodos = async(req, res) => {
     }
 }
 
-export default { getTodos }
+export const addTodo = async(req, res) => {
+    try {
+        const { name } = req.body
+        const todo = await Todo.create({ name })
+        res.status(201).json({ data: todo })
+    } catch (err) {
+        res.status(400).json({ data: err })
+    }
+}
+

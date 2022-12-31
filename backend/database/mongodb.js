@@ -2,15 +2,12 @@ import { connect } from 'mongoose'
 
 export const mongodbConnect = async(req, res) => {
 
-    const uri = ""
+    const uri = "mongodb://localhost:27017/todo"
     try {
-        const connected = await connect(uri, {
+        await connect(uri, {
             useNewUrlParser: true,
-            useCreateIndex: true,
-            useFindAndModify: false,
             useUnifiedTopology: true
         })
-        res.send(connected)
         console.log('Mongodb connected');
 
     } catch (err) {
