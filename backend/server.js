@@ -18,7 +18,7 @@ app.get('/', async(req, res) => {
 import { mongodbConnect } from './database/mongodb.js'
 mongodbConnect()
 
-const PORT = 5000
+const PORT = 3000
 
 app.listen(PORT, () => {
     console.log(`Server on ${PORT}`);

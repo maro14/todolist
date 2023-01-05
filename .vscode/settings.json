@@ -1,3 +1,10 @@
 {
-    
+    "workbench.colorCustomizations": {
+        "editorIndentGuide.activeBackground": "#d4cd13",
+        "editorIndentGuide.background": "#e01216"
+    },
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "typescript": "typescriptreact"
+    }
 }
