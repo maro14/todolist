@@ -69,6 +69,31 @@ h4 {
 	background-image: linear-gradient(to bottom, var(--primary), var(--secondary));
 }
 
+.todo .text {
+	font-size: 20px;
+}
+
+.todo.is-complete .text {
+	text-decoration: line-through;
+}
+
+.todo .delete-todo {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 16px;
+	color: var(--light);
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background-color: #AF1E2D;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
+}
+
+
 .addPopup {
 	position: fixed;
 	bottom: 32px;

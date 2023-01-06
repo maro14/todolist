@@ -14,6 +14,7 @@ export const getTodo = async(req, res) => {
         const { id } = req.params
         const todo = await Todo.findById(id)
         todo.complete = !todo.complete
+        todo.save()
         res.status(200).json({ data: todo })
     } catch (err) {
         res.status(400).json({ data: err })
@@ -22,7 +23,8 @@ export const getTodo = async(req, res) => {
 
 export const addTodo = async(req, res) => {
     try {
-        const todo = await Todo.create(req.body)
+        const { text } = req.body
+        const todo = await Todo.create({ text })
         res.status(201).json({ data: todo })
     } catch (err) {
         res.status(400).json({ data: err })
