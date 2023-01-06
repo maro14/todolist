@@ -10,10 +10,10 @@ function App() {
 
   useEffect(() => {
     GetTodos()
-  })
+  }, [])
 
   const GetTodos = () => {
-    fetch(API + '/todos')
+    fetch(API + '/todo/all')
     .then(res => res.json())
     .then(data => setTodos(data))
     .catch(err => console.error("Error", err))
@@ -31,10 +31,20 @@ function App() {
     }).then(res => res.json())
 
     setTodos([...todos, data])
+    SetPopupActive(false)
+    setNewTodo("")
   }
 
   const completeTodo = async id => {
+    const data = await fetch(API + '/todo/complete/' + id).then(res => res.json())
 
+    setTodos(todos => todos.map(todo => {
+      if (todo._id === data._id) {
+        todo.complete = data.complete
+      }
+
+      return todo
+    }))
   }
   
 
@@ -46,6 +56,7 @@ function App() {
       <div className='todos'>
         {todos.map( todo => (
         <div className={'todo' + todo.complete ? "is-complete": ""} key={ todo._id } onClick={ () => completeTodo(todo._id)}>
+          <div className="checkbox"></div>
           <div className='text'>{ todo.text }</div>
 
           <div className='delete-todo'></div>
