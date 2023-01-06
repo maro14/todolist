@@ -1,8 +1,17 @@
 import { Schema, model} from 'mongoose'
 
 const todoSchema = new Schema({
-    name: {
-        type: String
+    text: {
+        type: String,
+        required: true
+    },
+    complete: {
+        type: Boolean,
+        default: false
+    },
+    timestemps: {
+        type: String,
+        default: Date.now()
     }
 })
 

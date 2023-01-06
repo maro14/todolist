@@ -11,9 +11,6 @@ app.use(cors())
 import TodoRouter from "./routes/todo.js"
 app.use('/todo', TodoRouter)
 
-app.get('/', async(req, res) => {
-    res.send("OK")
-})
 
 import { mongodbConnect } from './database/mongodb.js'
 mongodbConnect()
