@@ -29,3 +29,22 @@ export const addTodo = async(req, res) => {
     }
 }
 
+export const deleteTodo = async(req, res) => {
+    try {
+        const { id } = req.params
+        const todo = await Todo.findByIdAndDelete(id)
+        res.status(200).json({ data: todo })
+    } catch (err) {
+        res.status(400).json({data: err })
+    }
+}
+
+export const updateTodo = async(req, res) => {
+    try {
+        const { id } = req.params
+        const todo = await Todo.findByIdAndUpdate(id)
+        res.status(200).json({ data: todo})
+    } catch (err) {
+        res.status(400).json({ data: err})
+    }
+}
