@@ -1,4 +1,4 @@
-# MERN Stack for Todo App
+# Todolist
 
 A simple todo application that allows users to create and manage their todo items. The application is built using the MERN stack (MongoDB, Express, React, and Node.js).
 
