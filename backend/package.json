@@ -10,7 +10,7 @@
     "dev": "nodemon server.js"
   },
   "keywords": ["express", "mongodb"],
-  "author": "",
+  "author": "eki",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
