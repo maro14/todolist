@@ -21,5 +21,8 @@
     "mongoose": "^6.13.3",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   }
 }

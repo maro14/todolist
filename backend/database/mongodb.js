@@ -1,10 +1,14 @@
 import { connect } from 'mongoose'
+import dotenv from 'dotenv';
+
+dotenv.config()
+
+const mongoUrl = process.env.MONGODB
 
 export const mongodbConnect = async(req, res) => {
 
-    const uri = "mongodb://localhost:27017/todo"
     try {
-        await connect(uri, {
+        await connect(mongoUrl, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
