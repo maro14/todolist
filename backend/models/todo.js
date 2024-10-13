@@ -9,7 +9,7 @@ const todoSchema = new Schema({
         type: Boolean,
         default: false
     },
-    timestemps: {
+    timestamps: {
         type: String,
         default: Date.now()
     }

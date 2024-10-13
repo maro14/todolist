@@ -15,7 +15,7 @@ app.use('/todo', TodoRouter)
 import { mongodbConnect } from './database/mongodb.js'
 mongodbConnect()
 
-const PORT = 3000
+const PORT = 3001
 
 app.listen(PORT, () => {
     console.log(`Server on ${PORT}`);

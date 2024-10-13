@@ -1,6 +1,6 @@
 :root {
-	--primary: #D81E5B;
-	--secondary: #8A4EFC;
+	--primary: #1ed846;
+	--secondary: #01134d;
 	--light: #EEE;
 	--light-alt: #61759b;
 	--dark: #131A26;
@@ -57,7 +57,7 @@ h4 {
 .todo .checkbox {
 	width: 20px;
 	height: 20px;
-	margin-right: 16px;
+	margin-right: 40px;
 	border-radius: 50%;
 	background-color: var(--dark-alt);
 	background-image: linear-gradient(to bottom, transparent, transparent);
@@ -102,8 +102,8 @@ h4 {
 	align-items: center;
 	justify-content: center;
 
-	width: 74px;
-	height: 74px;
+	width: 50px;
+	height: 50px;
 	border-radius: 999px;
 	font-size: 28px;
 	font-weight: 900;
@@ -120,7 +120,7 @@ h4 {
 	transform: translate(-50%, -50%);
 
 	width: 100%;
-	max-width: 400px;
+	max-width: 500px;
 	background-color: var(--light);
 	padding: 32px;
 	border-radius: 16px;
@@ -139,7 +139,7 @@ h4 {
 	outline: none;
 	border: none;
 	background-color: #FFF;
-	padding: 16px;
+	padding: 90px;
 	border-radius: 16px;
 	width: 100%;
 	box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.2);
@@ -192,3 +192,44 @@ h4 {
 	justify-content: center;
 	font-weight: 700;
 }
+
+.spinner {
+	width: 40px;
+	height: 40px;
+	position: relative;
+	margin: 100px auto;
+  }
+  
+  .double-bounce1, .double-bounce2 {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background-color: #333;
+	opacity: 0.6;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+	animation: sk-bounce 2.0s infinite ease-in-out;
+  }
+  
+  .double-bounce2 {
+	-webkit-animation-delay: -1.0s;
+	animation-delay: -1.0s;
+  }
+  
+  @-webkit-keyframes sk-bounce {
+	0%, 100% { -webkit-transform: scale(0.0) }
+	50% { -webkit-transform: scale(1.0) }
+  }
+  
+  @keyframes sk-bounce {
+	0%, 100% { 
+	  transform: scale(0.0);
+	  -webkit-transform: scale(0.0);
+	} 50% { 
+	  transform: scale(1.0);
+	  -webkit-transform: scale(1.0);
+	}
+  }
+  
