@@ -44,7 +44,7 @@ function App() {
         }),
       });
 
-      const result = await response.json();  // Adjusted to access the right response structure
+      //const result = await response.json();  // Adjusted to access the right response structure
       if (!response.ok) throw new Error('Failed to add todo');
 
       // Fetch updated todos after successfully adding a task
@@ -140,7 +140,7 @@ function App() {
               onChange={e => setNewTodo(e.target.value)}
               value={newTodo}
             />
-            <div className="button" onClick={addTodo}>Create Task</div>
+            <div className="button" onClick={addTodo}>Create new Task</div>
           </div>
         </div>
       ) : ''}
