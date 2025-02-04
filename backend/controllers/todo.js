@@ -163,3 +163,99 @@ export const updateTodo = async(req, res) => {
         })
     }
 }
+
+// Get todos by category
+export const getTodosByCategory = async(req, res) => {
+    try {
+        const { category } = req.params;
+        const todos = await Todo.find({ category })
+            .sort({ createdAt: -1 });
+        
+        res.status(200).json({
+            success: true,
+            count: todos.length,
+            data: todos
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to fetch todos by category'
+        });
+    }
+};
+
+// Get todos by priority
+export const getTodosByPriority = async(req, res) => {
+    try {
+        const { priority } = req.params;
+        const todos = await Todo.find({ priority })
+            .sort({ createdAt: -1 });
+        
+        res.status(200).json({
+            success: true,
+            count: todos.length,
+            data: todos
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to fetch todos by priority'
+        });
+    }
+};
+
+// Search todos
+export const searchTodos = async(req, res) => {
+    try {
+        const { query } = req.query;
+        const todos = await Todo.find(
+            { $text: { $search: query } },
+            { score: { $meta: "textScore" } }
+        )
+        .sort({ score: { $meta: "textScore" } });
+        
+        res.status(200).json({
+            success: true,
+            count: todos.length,
+            data: todos
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to search todos'
+        });
+    }
+};
+
+// Get statistics
+export const getTodoStats = async(req, res) => {
+    try {
+        const stats = await Todo.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: 1 },
+                    completed: { 
+                        $sum: { $cond: ['$complete', 1, 0] }
+                    },
+                    categoryStats: {
+                        $push: '$category'
+                    },
+                    priorityStats: {
+                        $push: '$priority'
+                    }
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: stats[0]
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to get todo statistics'
+        });
+    }
+};

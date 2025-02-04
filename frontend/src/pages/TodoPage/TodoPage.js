@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { FunnelIcon } from '@heroicons/react/24/outline';
 import TodoItem from '../../components/TodoItem/TodoItem';
 import Loading from '../../components/Loading/Loading';
 import AddTodoPopup from '../../components/AddTodoPopup/AddTodoPopup';
 import UpdateTodoPopup from '../../components/UpdateTodoPopup/UpdateTodoPopup';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import TodoFilters from '../../components/TodoFilters/TodoFilters';
 import './TodoPage.css';
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:3001";
@@ -15,24 +18,63 @@ const TodoPage = () => {
   const [newTodo, setNewTodo] = useState("");
   const [selectedTodo, setSelectedTodo] = useState(null);
   const [updatedText, setUpdatedText] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [category, setCategory] = useState("all");
+  const [priority, setPriority] = useState("all");
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    getTodos();
-  }, []);
+    fetchTodos();
+  }, [category, priority, filter]);
 
-  const getTodos = async () => {
-    setLoading(true);
+  const fetchTodos = async () => {
     try {
-      const response = await fetch(`${API}/todo/all`);
-      const result = await response.json();
-      if (!response.ok) throw new Error('Failed to fetch todos');
-      setTodos(result.data);
-    } catch (err) {
-      console.error("Error fetching todos", err);
+      let url = `${API}/todo/all`;
+      
+      if (category !== 'all') {
+        url = `${API}/todo/category/${category}`;
+      } else if (priority !== 'all') {
+        url = `${API}/todo/priority/${priority}`;
+      }
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.success) {
+        setTodos(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching todos:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      fetchTodos();
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API}/todo/search?query=${searchQuery}`);
+      const data = await response.json();
+
+      if (data.success) {
+        setTodos(data.data);
+      }
+    } catch (error) {
+      console.error('Error searching todos:', error);
+    }
+  };
+
+  useEffect(() => {
+    const debounceSearch = setTimeout(() => {
+      handleSearch();
+    }, 300);
+
+    return () => clearTimeout(debounceSearch);
+  }, [searchQuery]);
 
   const addTodo = async () => {
     if (!newTodo.trim()) {
@@ -53,7 +95,7 @@ const TodoPage = () => {
       });
 
       if (!response.ok) throw new Error('Failed to add todo');
-      await getTodos();
+      await fetchTodos();
       setShowAddPopup(false);
       setNewTodo("");
     } catch (error) {
@@ -128,25 +170,46 @@ const TodoPage = () => {
     }
   };
 
+  const filteredTodos = todos.filter(todo => {
+    if (filter === 'active') return !todo.complete;
+    if (filter === 'completed') return todo.complete;
+    return true;
+  });
+
   return (
     <div className="todo-page">
-      <h1>Welcome, Friends</h1>
-      <h4>Your Task</h4>
+      <h1>Todo List</h1>
+      
+      <SearchBar 
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
+
+      <TodoFilters
+        category={category}
+        setCategory={setCategory}
+        priority={priority}
+        setPriority={setPriority}
+        filter={filter}
+        setFilter={setFilter}
+      />
 
       {loading ? (
         <Loading />
       ) : (
         <div className="todos">
-          {todos.length > 0 ? todos.map(todo => (
-            <TodoItem
-              key={todo._id}
-              todo={todo}
-              onComplete={completeTodo}
-              onDelete={deleteTodo}
-              onEdit={handleEdit}
-            />
-          )) : (
-            <p>You currently have no tasks</p>
+          {filteredTodos.length > 0 ? (
+            filteredTodos.map(todo => (
+              <TodoItem
+                key={todo._id}
+                todo={todo}
+                onComplete={completeTodo}
+                onDelete={deleteTodo}
+                onEdit={handleEdit}
+              />
+            ))
+          ) : (
+            <p>No tasks found</p>
           )}
         </div>
       )}

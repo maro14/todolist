@@ -13,6 +13,20 @@ const todoSchema = new Schema({
         default: false,
         index: true // Index for faster queries on completion status
     },
+    priority: {
+        type: String,
+        enum: ['low', 'medium', 'high'],
+        default: 'medium'
+    },
+    category: {
+        type: String,
+        enum: ['work', 'personal', 'shopping', 'health', 'other'],
+        default: 'other'
+    },
+    dueDate: {
+        type: Date,
+        default: null
+    },
     createdAt: {
         type: Date,
         default: Date.now,

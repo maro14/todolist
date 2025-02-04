@@ -1,31 +1,14 @@
-.todo-page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.todos {
-  margin-top: 20px;
-}
-
-.todos p {
-  color: var(--dark-alt);
-  font-size: 16px;
-  text-align: center;
-  margin-top: 40px;
-}
-
-.todo-header {
+.filters-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
-.filter-section {
+.filter-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .filter-icon {
@@ -42,9 +25,20 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  min-width: 140px;
 }
 
 .filter-select:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--primary);
+}
+
+@media (max-width: 768px) {
+  .filters-container {
+    flex-direction: column;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
 } 

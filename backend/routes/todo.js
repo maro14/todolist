@@ -1,12 +1,29 @@
-import { getTodos, addTodo, getTodo, deleteTodo, updateTodo } from '../controllers/todo.js'
-import { Router} from 'express';
+import express from 'express';
+import {
+    getTodos,
+    getTodo,
+    addTodo,
+    deleteTodo,
+    updateTodo,
+    getTodosByCategory,
+    getTodosByPriority,
+    searchTodos,
+    getTodoStats
+} from '../controllers/todo.js';
 
-export const TodoRouter = Router()
+const router = express.Router();
 
-TodoRouter.get('/all', getTodos)
-TodoRouter.post('/add', addTodo)
-TodoRouter.get('/complete/:id', getTodo)
-TodoRouter.delete('/delete/:id', deleteTodo)
-TodoRouter.put('/update/:id', updateTodo)
+// Existing routes
+router.get('/all', getTodos);
+router.get('/complete/:id', getTodo);
+router.post('/add', addTodo);
+router.delete('/delete/:id', deleteTodo);
+router.put('/update/:id', updateTodo);
 
-export default TodoRouter
+// New routes
+router.get('/category/:category', getTodosByCategory);
+router.get('/priority/:priority', getTodosByPriority);
+router.get('/search', searchTodos);
+router.get('/stats', getTodoStats);
+
+export default router;
