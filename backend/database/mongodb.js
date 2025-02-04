@@ -6,15 +6,10 @@ dotenv.config()
 const mongoUrl = process.env.MONGODB
 
 export const mongodbConnect = async(req, res) => {
-
     try {
-        await connect(mongoUrl, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        })
-        console.log('Mongodb connected');
-
+        await connect(mongoUrl)
+        console.log('MongoDB connected');
     } catch (err) {
-        console.error("MOngodb error" ,err.message);
+        console.error("MongoDB error:", err.message);
     }
 }

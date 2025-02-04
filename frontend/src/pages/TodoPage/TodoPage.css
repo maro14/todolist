@@ -9,7 +9,7 @@
 }
 
 .todos p {
-  color: var(--light-alt);
+  color: var(--dark-alt);
   font-size: 16px;
   text-align: center;
   margin-top: 40px;

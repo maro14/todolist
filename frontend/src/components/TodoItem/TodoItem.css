@@ -26,10 +26,12 @@
 
 .todo .text {
   font-size: 20px;
+  color: #333;
 }
 
 .todo.is-complete .text {
   text-decoration: line-through;
+  color: #888;
 }
 
 .todo .delete-todo {
@@ -39,6 +41,17 @@
   transform: translateY(-50%);
   width: 24px;
   height: 24px;
-  color: #555;
+  background-color: #ff4444;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.todo .delete-todo:hover {
+  background-color: #ff0000;
 } 
