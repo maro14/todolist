@@ -1,0 +1,47 @@
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--light);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0px 4px 32px var(--dark);
+  z-index: 1000;
+}
+
+.popup h3 {
+  color: var(--dark);
+  margin-bottom: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.update-todo-input {
+  appearance: none;
+  outline: none;
+  border: none;
+  background-color: #FFF;
+  padding: 14px;
+  border-radius: 16px;
+  width: 100%;
+  box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  color: var(--dark);
+}
+
+.button {
+  padding: 18px 36px;
+  border-radius: 999px;
+  background-image: linear-gradient(to right, var(--primary), var(--secondary));
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-top: 20px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--light);
+} 

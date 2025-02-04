@@ -54,4 +54,41 @@
 
 .todo .delete-todo:hover {
   background-color: #ff0000;
+}
+
+.todo-actions {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.todo .edit-todo {
+  width: 24px;
+  height: 24px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.todo .edit-todo:hover {
+  background-color: #45a049;
+}
+
+.action-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.check-icon {
+  width: 14px;
+  height: 14px;
+  color: white;
 } 

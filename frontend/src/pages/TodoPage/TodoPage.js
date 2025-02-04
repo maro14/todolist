@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import TodoItem from '../../components/TodoItem/TodoItem';
 import Loading from '../../components/Loading/Loading';
 import AddTodoPopup from '../../components/AddTodoPopup/AddTodoPopup';
+import UpdateTodoPopup from '../../components/UpdateTodoPopup/UpdateTodoPopup';
 import './TodoPage.css';
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
 const TodoPage = () => {
   const [todos, setTodos] = useState([]);
-  const [popupActive, setPopupActive] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const [newTodo, setNewTodo] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState(null);
+  const [updatedText, setUpdatedText] = useState("");
 
   useEffect(() => {
     getTodos();
@@ -50,7 +54,7 @@ const TodoPage = () => {
 
       if (!response.ok) throw new Error('Failed to add todo');
       await getTodos();
-      setPopupActive(false);
+      setShowAddPopup(false);
       setNewTodo("");
     } catch (error) {
       console.error("Error adding todo:", error);
@@ -93,6 +97,37 @@ const TodoPage = () => {
     }
   };
 
+  const handleEdit = (todo) => {
+    setSelectedTodo(todo);
+    setUpdatedText(todo.text);
+    setShowUpdatePopup(true);
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const response = await fetch(`${API}/todo/update/${selectedTodo._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: updatedText })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setTodos(todos.map(todo => 
+          todo._id === selectedTodo._id ? { ...todo, text: updatedText } : todo
+        ));
+        setShowUpdatePopup(false);
+        setSelectedTodo(null);
+        setUpdatedText("");
+      }
+    } catch (error) {
+      console.error('Error updating todo:', error);
+    }
+  };
+
   return (
     <div className="todo-page">
       <h1>Welcome, Friends</h1>
@@ -108,6 +143,7 @@ const TodoPage = () => {
               todo={todo}
               onComplete={completeTodo}
               onDelete={deleteTodo}
+              onEdit={handleEdit}
             />
           )) : (
             <p>You currently have no tasks</p>
@@ -115,14 +151,31 @@ const TodoPage = () => {
         </div>
       )}
 
-      <div className="addPopup" onClick={() => setPopupActive(true)}>+</div>
+      <div className="addPopup" onClick={() => setShowAddPopup(true)}>+</div>
 
-      {popupActive && (
+      {showAddPopup && (
         <AddTodoPopup
           newTodo={newTodo}
           setNewTodo={setNewTodo}
           onAdd={addTodo}
-          onClose={() => setPopupActive(false)}
+          onClose={() => {
+            setShowAddPopup(false);
+            setNewTodo("");
+          }}
+        />
+      )}
+
+      {showUpdatePopup && selectedTodo && (
+        <UpdateTodoPopup
+          todo={selectedTodo}
+          updatedText={updatedText}
+          setUpdatedText={setUpdatedText}
+          onUpdate={handleUpdate}
+          onClose={() => {
+            setShowUpdatePopup(false);
+            setSelectedTodo(null);
+            setUpdatedText("");
+          }}
         />
       )}
     </div>
