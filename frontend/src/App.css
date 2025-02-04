@@ -1,5 +1,26 @@
 .App {
   text-align: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: 32px;
+  padding-bottom: 100px; /* Space for mobile navigation */
+  background-color: var(--darker);
+  transition: all 0.3s ease;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+/* Responsive layout adjustments */
+@media (min-width: 768px) {
+  .App {
+    padding-left: 112px; /* Space for desktop navigation */
+    padding-bottom: 32px;
+  }
+
+  .main-content {
+    padding-top: 0;
+  }
 } 
