@@ -3,51 +3,163 @@ import { Todo } from '../models/todo.js'
 export const getTodos = async(req, res) => {
     try {
         const todos = await Todo.find()
-        res.status(200).json({ data: todos })
+            .sort({ createdAt: -1 }) // Sort by newest first
+            .select('-__v') // Exclude version field
+        
+        res.status(200).json({
+            success: true,
+            count: todos.length,
+            data: todos
+        })
     } catch (err) {
-        res.status(400).json({ data: err.message })
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to fetch todos'
+        })
     }
 }
 
 export const getTodo = async(req, res) => {
     try {
-        const todo = await Todo.findById(req.params.id)
+        const { id } = req.params
+        
+        const todo = await Todo.findById(id)
+        if (!todo) {
+            return res.status(404).json({
+                success: false,
+                error: 'Todo not found'
+            })
+        }
+
         todo.complete = !todo.complete
-        todo.save()
-        res.status(200).json({ data: todo })
+        await todo.save()
+
+        res.status(200).json({
+            success: true,
+            data: todo
+        })
     } catch (err) {
-        res.status(400).json({ data: err })
+        if (err.name === 'CastError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid todo ID'
+            })
+        }
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to update todo'
+        })
     }
 }
 
 export const addTodo = async(req, res) => {
     try {
-        const todo = new Todo({
-            text: req.body.text
+        const { text } = req.body
+        
+        if (!text || text.trim().length === 0) {
+            return res.status(400).json({
+                success: false,
+                error: 'Todo text is required'
+            })
+        }
+
+        const todo = await Todo.create({ text })
+
+        res.status(201).json({
+            success: true,
+            data: todo
         })
-        todo.save()
-        res.status(201).json({ data: todo })
     } catch (err) {
-        res.status(400).json({ data: err })
+        if (err.name === 'ValidationError') {
+            const messages = Object.values(err.errors).map(val => val.message)
+            return res.status(400).json({
+                success: false,
+                error: messages
+            })
+        }
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to create todo'
+        })
     }
 }
 
 export const deleteTodo = async(req, res) => {
     try {
-        const todo = await Todo.findByIdAndDelete(req.params.id)
-        res.status(200).json({ data: todo })
+        const { id } = req.params
+        
+        const todo = await Todo.findById(id)
+        if (!todo) {
+            return res.status(404).json({
+                success: false,
+                error: 'Todo not found'
+            })
+        }
+
+        await todo.deleteOne()
+
+        res.status(200).json({
+            success: true,
+            data: todo
+        })
     } catch (err) {
-        res.status(400).json({data: err })
+        if (err.name === 'CastError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid todo ID'
+            })
+        }
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to delete todo'
+        })
     }
 }
 
 export const updateTodo = async(req, res) => {
     try {
-        const todo = await Todo.findByIdAndUpdate(req.params.id)
-        todo.text = req.body.text
-        todo.save()
-        res.status(200).json({ data: todo})
+        const { id } = req.params
+        const { text } = req.body
+
+        if (!text || text.trim().length === 0) {
+            return res.status(400).json({
+                success: false,
+                error: 'Todo text is required'
+            })
+        }
+
+        const todo = await Todo.findById(id)
+        if (!todo) {
+            return res.status(404).json({
+                success: false,
+                error: 'Todo not found'
+            })
+        }
+
+        todo.text = text
+        await todo.save()
+
+        res.status(200).json({
+            success: true,
+            data: todo
+        })
     } catch (err) {
-        res.status(400).json({ data: err})
+        if (err.name === 'ValidationError') {
+            const messages = Object.values(err.errors).map(val => val.message)
+            return res.status(400).json({
+                success: false,
+                error: messages
+            })
+        }
+        if (err.name === 'CastError') {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid todo ID'
+            })
+        }
+        res.status(500).json({
+            success: false,
+            error: 'Server Error: Failed to update todo'
+        })
     }
 }
