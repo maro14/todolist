@@ -1,0 +1,44 @@
+.todo {
+  position: relative;
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.todo .checkbox {
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 2px solid #999;
+  transition: 0.4s;
+}
+
+.todo.is-complete .checkbox {
+  background-color: #1dd2af;
+  border-color: #1dd2af;
+}
+
+.todo .text {
+  font-size: 20px;
+}
+
+.todo.is-complete .text {
+  text-decoration: line-through;
+}
+
+.todo .delete-todo {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  color: #555;
+  cursor: pointer;
+} 
