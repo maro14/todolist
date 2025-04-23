@@ -4,12 +4,20 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 const mongoUrl = process.env.MONGODB
+const connectionOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
+    maxPoolSize: 10
+}
 
-export const mongodbConnect = async(req, res) => {
+export const mongodbConnect = async() => {
     try {
-        await connect(mongoUrl)
-        console.log('MongoDB connected');
+        await connect(mongoUrl, connectionOptions)
+        console.log('✅ MongoDB connected successfully');
     } catch (err) {
-        console.error("MongoDB error:", err.message);
+        console.error('❌ MongoDB connection error:', err.message);
+        // Retry connection after delay
+        setTimeout(mongodbConnect, 5000);
     }
 }

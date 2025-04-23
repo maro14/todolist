@@ -1,6 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import { setupSwagger } from './swagger.js'
 
 const app = express()
 app.use(express.json())
@@ -16,6 +17,8 @@ import { mongodbConnect } from './database/mongodb.js'
 mongodbConnect()
 
 const PORT = 3001
+
+setupSwagger(app);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

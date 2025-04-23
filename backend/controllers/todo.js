@@ -3,8 +3,16 @@ import { Todo } from '../models/todo.js'
 export const getTodos = async(req, res) => {
     try {
         const todos = await Todo.find()
-            .sort({ createdAt: -1 }) // Sort by newest first
-            .select('-__v') // Exclude version field
+            .sort({ createdAt: -1 })
+            .select('-__v')
+        
+        if (!todos || todos.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: 'No todos found',
+                message: 'Please add some todos first'
+            })
+        }
         
         res.status(200).json({
             success: true,
@@ -12,9 +20,12 @@ export const getTodos = async(req, res) => {
             data: todos
         })
     } catch (err) {
+        console.error('Error fetching todos:', err);
         res.status(500).json({
             success: false,
-            error: 'Server Error: Failed to fetch todos'
+            error: 'Failed to fetch todos',
+            message: err.message,
+            stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
         })
     }
 }
@@ -23,11 +34,21 @@ export const getTodo = async(req, res) => {
     try {
         const { id } = req.params
         
+        // Validate ID format before query
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid todo ID format',
+                message: 'ID must be a 24-character hex string'
+            })
+        }
+        
         const todo = await Todo.findById(id)
         if (!todo) {
             return res.status(404).json({
                 success: false,
-                error: 'Todo not found'
+                error: 'Todo not found',
+                message: `No todo found with ID ${id}`
             })
         }
 
@@ -36,18 +57,23 @@ export const getTodo = async(req, res) => {
 
         res.status(200).json({
             success: true,
-            data: todo
+            data: todo,
+            message: 'Todo status updated successfully'
         })
     } catch (err) {
+        console.error('Error updating todo:', err);
         if (err.name === 'CastError') {
             return res.status(400).json({
                 success: false,
-                error: 'Invalid todo ID'
+                error: 'Invalid todo ID',
+                message: 'The provided ID is not valid'
             })
         }
         res.status(500).json({
             success: false,
-            error: 'Server Error: Failed to update todo'
+            error: 'Failed to update todo',
+            message: err.message,
+            stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
         })
     }
 }
