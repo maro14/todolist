@@ -54,7 +54,7 @@ export const getTodo = async(req, res) => {
 
 export const addTodo = async(req, res) => {
     try {
-        const { text } = req.body
+        const { text, category = 'other', priority = 'medium' } = req.body
         
         if (!text || text.trim().length === 0) {
             return res.status(400).json({
@@ -63,7 +63,12 @@ export const addTodo = async(req, res) => {
             })
         }
 
-        const todo = await Todo.create({ text })
+        // Create todo with all fields
+        const todo = await Todo.create({ 
+            text,
+            category,
+            priority
+        })
 
         res.status(201).json({
             success: true,

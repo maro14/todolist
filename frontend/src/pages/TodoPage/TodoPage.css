@@ -1,7 +1,10 @@
 .todo-page {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 32px 24px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .todos {
@@ -19,7 +22,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .filter-section {
@@ -35,16 +40,21 @@
 }
 
 .filter-select {
-  background-color: var(--dark);
-  color: var(--light);
-  border: none;
+  background-color: #f8fafc;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.filter-select:hover {
+  border-color: #94a3b8;
 }
 
 .filter-select:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--primary);
-} 
+}

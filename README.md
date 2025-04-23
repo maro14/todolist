@@ -42,7 +42,7 @@ A modern todo application built with the MERN stack (MongoDB, Express, React, an
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/todolist.git
+git clone https://github.com/maro14/todolist.git
 cd todolist
 ```
 
