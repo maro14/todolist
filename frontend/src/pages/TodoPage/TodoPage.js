@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FunnelIcon } from '@heroicons/react/24/outline';
+import { FunnelIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import TodoItem from '../../components/TodoItem/TodoItem';
 import Loading from '../../components/Loading/Loading';
 import AddTodoPopup from '../../components/AddTodoPopup/AddTodoPopup';
@@ -214,7 +214,9 @@ const TodoPage = () => {
         </div>
       )}
 
-      <div className="addPopup" onClick={() => setShowAddPopup(true)}>+</div>
+      <div className="addPopup" onClick={() => setShowAddPopup(true)}>
+  <PlusCircleIcon className="h-6 w-6" />
+</div>
 
       {showAddPopup && (
         <AddTodoPopup
@@ -245,4 +247,4 @@ const TodoPage = () => {
   );
 };
 
-export default TodoPage; 
+export default TodoPage;
