@@ -1,5 +1,6 @@
 import { Todo } from '../models/todo.js'
 
+// Get all todos, sorted by creation date (newest first)
 export const getTodos = async(req, res) => {
     try {
         const todos = await Todo.find()
@@ -30,6 +31,7 @@ export const getTodos = async(req, res) => {
     }
 }
 
+// Toggle the completion status of a todo by ID
 export const getTodo = async(req, res) => {
     try {
         const { id } = req.params
@@ -52,6 +54,7 @@ export const getTodo = async(req, res) => {
             })
         }
 
+        // Toggle the complete status
         todo.complete = !todo.complete
         await todo.save()
 
@@ -78,10 +81,12 @@ export const getTodo = async(req, res) => {
     }
 }
 
+// Add a new todo
 export const addTodo = async(req, res) => {
     try {
         const { text, category = 'other', priority = 'medium' } = req.body
         
+        // Validate text input
         if (!text || text.trim().length === 0) {
             return res.status(400).json({
                 success: false,
@@ -115,6 +120,7 @@ export const addTodo = async(req, res) => {
     }
 }
 
+// Delete a todo by ID
 export const deleteTodo = async(req, res) => {
     try {
         const { id } = req.params
@@ -147,11 +153,13 @@ export const deleteTodo = async(req, res) => {
     }
 }
 
+// Update the text of a todo by ID
 export const updateTodo = async(req, res) => {
     try {
         const { id } = req.params
         const { text } = req.body
 
+        // Validate text input
         if (!text || text.trim().length === 0) {
             return res.status(400).json({
                 success: false,
@@ -195,7 +203,7 @@ export const updateTodo = async(req, res) => {
     }
 }
 
-// Get todos by category
+// Get todos filtered by category
 export const getTodosByCategory = async(req, res) => {
     try {
         const { category } = req.params;
@@ -215,7 +223,7 @@ export const getTodosByCategory = async(req, res) => {
     }
 };
 
-// Get todos by priority
+// Get todos filtered by priority
 export const getTodosByPriority = async(req, res) => {
     try {
         const { priority } = req.params;
@@ -235,7 +243,7 @@ export const getTodosByPriority = async(req, res) => {
     }
 };
 
-// Search todos
+// Search todos by text using MongoDB text index
 export const searchTodos = async(req, res) => {
     try {
         const { query } = req.query;
@@ -258,7 +266,7 @@ export const searchTodos = async(req, res) => {
     }
 };
 
-// Get statistics
+// Get statistics about todos (total, completed, by category and priority)
 export const getTodoStats = async(req, res) => {
     try {
         const stats = await Todo.aggregate([
